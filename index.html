@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eduzen</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-grid">
+            <header>
+                <img src="./logo.png" class="logo">
+                <nav class="nav">
+                    <a href="./one.html" class="nav_link">Home</a>
+                    <a href="#" class="nav_link">Contact</a>
+                    <a href="#" class="nav_link">Help</a>
+                </nav>
+            </header>
+            <hr>
+            <main>
+                <div class="title">
+                    <h2 class="theme">We are here to help you!</h2>
+                </div>
+                <section class="content">
+                    <div class="input-box">
+                        <h5>New Search</h5>
+                        <input type="text" class="input" placeholder="Search">
+                        <button class="btn">Search</button>
+                        <div class="history">
+                            <h2>History</h2>
+                            <ol class="history-list">
+                                <!-- History items will be inserted here -->
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="about-box">
+                        <h2>About Us</h2> <br>
+                        <p>Fueled by a passion to empower new courier enthusiasts, Eduzen provides a comprehensive platform designed to equip you with the knowledge, resources, and support you need to navigate the exciting yet challenging world of courier services. From getting started with essential licenses and equipment to finding solutions for complex delivery routes through our extensive knowledge base and community forum, Eduzen is your one-stop shop for a successful courier journey</p>
+                    </div>
+                </section>
+                <section class="recents">
+                    <h2>Recents Searches</h2>
+                    <div class="recents-list">
+                        <!-- Random courses will be inserted here -->
+                    </div>
+                </section>
+            </main>
+            <footer>
+                <div class="social-links">
+                    <a href="#" class="social-link">Facebook</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- SerpApi Script -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const inputBox = document.querySelector('.input');
+        const btn = document.querySelector('.btn');
+        const historyList = document.querySelector('.history-list');
+        const recentsList = document.querySelector('.recents-list');
+
+        let history = JSON.parse(localStorage.getItem('searchHistory')) || []; // Array to store search history
+        const courses = [
+            "Data Science", "Data-Structure and Algorithm", "Python", "Java", "C++", "C", "JavaScript", "React", "Angular", "Vue", "Node", "Express", "MongoDB", "SQL", "NoSQL", "HTML", "CSS", "SASS", "Bootstrap", "Tailwind", "Materialize", "JQuery", "AJAX", "API", "REST", "GraphQL", "Websockets", "WebRTC", "PWA", "SPA", "MERN", "MEAN", "LAMP", "Laravel", "Django", "Flask", "Spring", "Hibernate", "JPA", "JSP", "Servlet", "Thymeleaf", "Freemarker", "Velocity", "JDBC", "JPA", "JTA", "JMS", "JMX", "JNDI", "JAX-RS", "JAX-WS"
+        ];
+
+        btn.addEventListener('click', async () => {
+            const searchTerm = inputBox.value.trim();
+            if (searchTerm) {
+                // Add search term to history
+                history.push(searchTerm);
+                // Keep only the last 5 searches
+                history = history.slice(-5);
+                // Update the local storage
+                localStorage.setItem('searchHistory', JSON.stringify(history));
+                
+                // Redirect to the new page with the search term in a new tab
+                window.open(`courses.html?query=${encodeURIComponent(searchTerm)}`, '_blank');
+                
+                // Clear input box after search
+                inputBox.value = '';
+                
+                // Update history list
+                updateHistoryList();
+            }
+        });
+
+        function updateHistoryList() {
+            historyList.innerHTML = ''; // Clear existing history items
+
+            // Display updated search history
+            history.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('history-item');
+                listItem.textContent = item;
+                historyList.appendChild(listItem);
+            });
+        }
+
+        async function fetchDescription(query) {
+            const options = {
+                method: 'GET',
+                url: 'https://real-time-web-search.p.rapidapi.com/search',
+                params: {
+                    q: query,
+                    limit: '1'
+                },
+                headers: {
+                    'X-RapidAPI-Key': 'ac5a553c91msh3f2c24c5351b2e9p1e43d3jsn646161e85b64',
+                    'X-RapidAPI-Host': 'real-time-web-search.p.rapidapi.com'
+                }
+            };
+
+            try {
+                const response = await axios.request(options);
+                const description = response.data.organic_results[0].snippet;
+                return description;
+            } catch (error) {
+                console.error('Error fetching description:', error);
+                return 'Description not available.';
+            }
+        }
+
+        async function updateRecents() {
+            recentsList.innerHTML = ''; // Clear existing recent items
+
+            // Shuffle the courses array
+            const shuffledCourses = [...courses].sort(() => Math.random() - 0.5);
+
+            // Display random courses in recent searches
+            for (let course of shuffledCourses.slice(0, 3)) {
+                const description = await fetchDescription(course);
+                const recentItem = document.createElement('div');
+                recentItem.classList.add('recent-item');
+                recentItem.innerHTML = `
+                    <h3 class="recent-title">${course}</h3>
+                    <p class="recent-content">${description}</p> 
+                `;
+                recentsList.appendChild(recentItem);
+            }
+        }
+
+        // Update recents every 30 seconds
+        updateRecents();
+        setInterval(updateRecents, 30000);
+
+        // Initialize history list on page load
+        updateHistoryList();
+
+    </script>
+</body>
+
+</html>

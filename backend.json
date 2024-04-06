@@ -1,0 +1,100 @@
+[
+    {
+        "title": "Python",
+        "description": "A beginner's guide to Python programming.",
+        "category": "beginner",
+        "youtubeId": "vLqTf2b6GZw"
+    },
+    {
+        "title": "Python",
+        "description": "Advanced Python concepts for intermediate learners.",
+        "category": "intermediate",
+        "youtubeId": "v9bOWjwdTlg"
+    },
+    {
+        "title": "Python",
+        "description": "Building advanced Python projects.",
+        "category": "advanced",
+        "youtubeId": "Yrtm7d3TJbs"
+    },
+    {
+        "title": "Java",
+        "description": "Java fundamentals for beginners.",
+        "category": "beginner",
+        "youtubeId": "UmnCZ7-9yDY"
+    },
+    {
+        "title": "Java",
+        "description": "Advanced Java concepts for intermediate learners.",
+        "category": "intermediate",
+        "youtubeId": "BGTx91t8q50"
+    },
+    {
+        "title": "Java",
+        "description": "Building advanced Java applications.",
+        "category": "advanced",
+        "youtubeId": "xk4_1vDrzzo"
+    },
+    {
+        "title": "React",
+        "description": "React fundamentals for beginners.",
+        "category": "beginner",
+        "youtubeId": "Xe8CkYZvCig"
+    },  
+    {
+        "title": "React",
+        "description": "Advanced React concepts for intermediate learners.",
+        "category": "intermediate",
+        "youtubeId": "SqcY0GlETPk"
+    },
+    {
+        "title": "React",
+        "description": "Building advanced React applications.",
+        "category": "advanced",
+        "youtubeId": "FxgM9k1rg0Q"
+    },
+    {
+        "title": "Angular",
+        "description": "Angular fundamentals for beginners.",
+        "category": "beginner",
+        "youtubeId": "Fe4IaG0KU"
+    },  
+    {
+        "title": "Angular",
+        "description": "Advanced Angular concepts for intermediate learners.",
+        "category": "intermediate",
+        "youtubeId": "0LhBvp8qpro"
+    },
+    {
+        "title": "Angular",
+        "description": "Building advanced Angular applications.",
+        "category": "advanced",
+        "youtubeId": "k5E2AVpwsko"
+    },
+    {
+        "title": "Data Science",
+        "description": "Introduction to the basic concepts and techniques    of data science.",
+        "category": "beginner",
+        "youtubeId": "X3paOmcrTjQ"
+    },
+        {
+            "title": "Data Science",
+            "description": "Learn Python programming tailored for data science applications.",
+            "category": "intermediate",
+            "youtubeId": "mkv5mxYu0Wk"
+        },
+        {
+            "title": "Data Visualization with Matplotlib",
+            "description": "Master the art of data visualization using Matplotlib in Python.",
+            "category": "intermediate",
+            "youtubeId": "OZOOLe2imFo"
+        },
+        {
+            "title": "Machine Learning",
+            "description": "Introduction to machine learning algorithms and concepts.",
+            "category": "beginner",
+            "youtubeId": "1vsmaEfbnoE"
+        }
+]
+    
+

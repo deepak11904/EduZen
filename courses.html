@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eduzen Courses</title>
+    <link rel="stylesheet" href="./courses.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-grid">
+            <header class="header">
+                <h1 class="logo">EDUZEN</h1>
+                <h1 id="searchTerm"></h1>
+                <nav class="nav">
+                    <a href="./one.html" class="nav_link">Home</a>
+                    <a href="#" class="nav_link">Contact</a>
+                    <a href="#" class="nav_link">Help</a>
+                </nav>
+            </header>
+            <hr>
+            <main class="content">
+                <div class="title">
+                </div>
+                <div class="input-box">
+                    <h3>Tell us more about your need :</h3>
+                    <input type="text" class="input-tech-stack" placeholder="Tech Stack (e.g., Python, React)">
+                    <div class="key-elements">
+                        <h4>Category :</h4>
+                        <label>
+                            <input type="radio" name="keyElement" value="beginner" checked>
+                            Beginner
+                        </label>
+                        <label>
+                            <input type="radio" name="keyElement" value="intermediate">
+                            Intermediate
+                        </label>
+                        <label>
+                            <input type="radio" name="keyElement" value="advanced">
+                            Advanced
+                        </label>
+                    </div>
+                    <br>
+                    <button class="btn">Search</button>
+                </div>
+                <section class="result">
+                    <div class="course-results">
+                        <h2>Course Results</h2>
+                        <hr>
+                        <div class="courses-list">
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer>
+                <div class="social-links">
+                    <a href="#" class="social-link">Facebook</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">Instagram</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- SerpApi Script -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const coursesList = document.querySelector('.courses-list');
+        const searchTermElem = document.getElementById('searchTerm');
+        const inputTechStack = document.querySelector('.input-tech-stack');
+        const keyElements = document.getElementsByName('keyElement');
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('query');
+        searchTermElem.textContent = searchTerm;
+
+        async function fetchCourses() {
+            const response = await axios.get('./backend.json'); // Backend JSON endpoint
+            return response.data;
+        }
+
+        async function searchCourses() {
+            const coursesData = await fetchCourses();
+            const selectedLevel = [...keyElements].find(radio => radio.checked).value.toLowerCase();
+            const techStack = inputTechStack.value.toLowerCase();
+            
+            const filteredCourses = coursesData.filter(course => 
+                ((searchTerm && course.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                (course.title.toLowerCase().includes(techStack) && course.category.toLowerCase() === selectedLevel)) &&
+                course.category.toLowerCase() === selectedLevel
+            );
+
+            coursesList.innerHTML = ''; // Clear existing course items
+
+            filteredCourses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.classList.add('course-item');
+                courseItem.innerHTML = `
+                    <h3 class="course-title">${course.title}</h3>
+                    <p class="course-content">${course.description}</p>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/${course.youtubeId}" frameborder="0" allowfullscreen controls></iframe>
+                `;
+                coursesList.appendChild(courseItem);
+            });
+        }
+
+        const btn = document.querySelector('.btn');
+        btn.addEventListener('click', searchCourses);
+
+    </script>
+</body>
+
+</html>
